@@ -102,12 +102,18 @@
     @keyframes pulse { from { transform: scale(1); opacity: .7; } to { transform: scale(3.2); opacity: 0; } }
     .tracker { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: grid; gap: 16px; align-content: start; }
     .tracker-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .tracker > .pill { justify-self: start; margin-top: -6px; }
+    .play { width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--sea); display: inline-grid; place-items: center; cursor: pointer; flex: none; transition: border-color .15s; }
+    .play:hover { border-color: var(--sea); }
+    .play svg { width: 14px; height: 14px; }
+    .play .i-pause, .play.on .i-play { display: none; }
+    .play.on .i-pause { display: inline; }
     .pill { font: 600 .78rem var(--f-mono); padding: 4px 10px; border-radius: 999px; background: var(--sea-soft); color: var(--sea); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
     .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: blink 1.2s steps(2) infinite; }
     .pill.warn { color: var(--signal); }
     .pill.ok::before { animation: none; }
     @keyframes blink { 50% { opacity: .2; } }
-    .trk-car { font-weight: 600; }
+    .trk-car { font-weight: 600; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .trk-now { font-family: var(--f-display); font-size: 1.15rem; line-height: 1.25; }
     .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
     .bar i { display: block; height: 100%; width: 0; background: var(--sea); }
@@ -215,14 +221,19 @@
     .form-grid .full { grid-column: 1 / -1; }
     .form-grid .field + .field { margin-top: 0; }
     .err { color: #C0392B; font-size: .85rem; }
-    .done { display: grid; gap: 14px; }
-    .done pre { white-space: pre-wrap; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 14px; font: .88rem/1.55 var(--f-mono); margin: 0; overflow-x: auto; }
-    .done .row { display: flex; gap: 10px; flex-wrap: wrap; }
     @media (max-width: 860px) { .order { grid-template-columns: 1fr; } }
     @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
 
     footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--muted); font-size: .88rem; }
     footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    /* мобильная версия: без карты и с короткими текстами */
+    .t-short { display: none; }
+    @media (max-width: 720px) {
+        .t-full { display: none; }
+        .t-short { display: inline; }
+        .profile-box { display: none; }
+    }
 
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
     html { scroll-behavior: smooth; }
@@ -244,7 +255,7 @@
       <a href="#calc">Расчёт</a>
       <a href="#faq">Вопросы</a>
     </nav>
-    <a class="btn" href="#order">Оставить заявку</a>
+    <a class="btn" href="#order">Заявка</a>
   </div>
 </header>
 
@@ -254,17 +265,17 @@
       <div>
         <p class="eyebrow">Перегон автомобилей из Грузии в Россию</p>
         <h1 class="route-word" style="margin-top:16px">Порт Поти<span class="arrow">→ Верхний Ларс →</span>Владикавказ</h1>
-        <p class="hero-lead">Забираем машину из порта после морской доставки из США, Кореи, ОАЭ или Европы и <strong>везём через границу во Владикавказ</strong>. С водителем своим ходом, на автовозе или эвакуаторе.</p>
+        <p class="hero-lead"><span class="t-full">Забираем машину из порта после морской доставки из США, Кореи, ОАЭ или Европы и <strong>везём через границу во Владикавказ</strong>. С водителем своим ходом, на автовозе или эвакуаторе.</span><span class="t-short">Забираем машину в порту и <strong>везём во Владикавказ</strong>: своим ходом, автовозом или эвакуатором.</span></p>
         <div class="hero-cta">
           <a class="btn" href="#calc">Рассчитать стоимость</a>
           <a class="btn ghost" href="#order">Отправить VIN на оценку</a>
         </div>
       </div>
       <div class="facts" aria-label="Коротко о маршруте">
-        <div class="fact"><span class="v">≈ 500 км</span><span class="k">от причала Поти до таможни Владикавказа</span></div>
-        <div class="fact"><span class="v">5–7 дней</span><span class="k">от заявки до выдачи машины во Владикавказе</span></div>
-        <div class="fact"><span class="v">2379 м</span><span class="k">Крестовый перевал: зимой дорогу закрывают из-за снега</span></div>
-        <div class="fact"><span class="v">1 пункт</span><span class="k">пропуска на всём маршруте: Верхний Ларс — Казбеги</span></div>
+        <div class="fact"><span class="v">≈ 500 км</span><span class="k"><span class="t-full">от причала Поти до таможни Владикавказа</span><span class="t-short">от порта до таможни</span></span></div>
+        <div class="fact"><span class="v">5–7 дней</span><span class="k"><span class="t-full">от заявки до выдачи машины во Владикавказе</span><span class="t-short">от заявки до выдачи</span></span></div>
+        <div class="fact"><span class="v">2379 м</span><span class="k"><span class="t-full">Крестовый перевал: зимой дорогу закрывают из-за снега</span><span class="t-short">Крестовый перевал, зимой бывает закрыт</span></span></div>
+        <div class="fact"><span class="v">1 пункт</span><span class="k"><span class="t-full">пропуска на всём маршруте: Верхний Ларс — Казбеги</span><span class="t-short">пропуска: Верхний Ларс</span></span></div>
       </div>
     </div>
   </section>
@@ -327,8 +338,11 @@
       <aside class="tracker" aria-live="polite">
         <div class="tracker-head">
           <span class="trk-car">Toyota RAV4 · VIN …4821</span>
-          <span class="pill" id="trk-pill">В пути</span>
+          <button class="play" type="button" id="trk-play" aria-label="Запустить демо">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4.5 2.5v11l9-5.5z" fill="currentColor"/><g class="i-pause" fill="currentColor"><rect x="3.5" y="2.5" width="3" height="11" rx="1"/><rect x="9.5" y="2.5" width="3" height="11" rx="1"/></g></svg>
+          </button>
         </div>
+        <span class="pill" id="trk-pill">В пути</span>
         <div>
           <div class="bar"><i id="trk-bar"></i></div>
           <div class="trk-km"><span id="trk-km">0 км</span><span>500 км</span></div>
@@ -340,42 +354,42 @@
           <li data-km="462"><span>Верхний Ларс</span><span>день 3–4</span></li>
           <li data-km="500"><span>Владикавказ</span><span>день 4–5</span></li>
         </ul>
-        <p class="small"><span class="eyebrow">Пример · демо.</span> Каждый клиент получает ссылку на такую карту. Машину видно по GPS-трекеру, на каждой точке присылаем фото и сообщение в мессенджер.</p>
+        <p class="small"><span class="eyebrow">Пример · демо.</span> <span class="t-full">Каждый клиент получает ссылку на такую карту. Машину видно по GPS-трекеру, на каждой точке присылаем фото и сообщение в мессенджер.</span><span class="t-short">Машину видно по GPS, на каждой точке присылаем фото.</span></p>
       </aside>
     </div>
     <div class="season-note" id="season-note"></div>
-    <p class="profile-note">Карта схематичная, расстояния приблизительные. Перед выездом проверяем статус Военно-Грузинской дороги и очередь на Верхнем Ларсе и сразу предупреждаем о задержке.</p>
+    <p class="profile-note"><span class="t-full">Карта схематичная, расстояния приблизительные. Перед выездом проверяем статус Военно-Грузинской дороги и очередь на Верхнем Ларсе и сразу предупреждаем о задержке.</span><span class="t-short">Перед выездом проверяем дорогу и очередь на границе и сразу предупреждаем о задержке.</span></p>
   </div>
 
   <section class="block" id="services">
     <div class="wrap">
       <div class="block-head">
         <h2>Как доставим вашу машину</h2>
-        <p>Способ выбираем по состоянию автомобиля. Целую машину выгоднее перегнать своим ходом, аукционную битую или без ключа везём на эвакуаторе.</p>
+        <p><span class="t-full">Способ выбираем по состоянию автомобиля. Целую машину выгоднее перегнать своим ходом, аукционную битую или без ключа везём на эвакуаторе.</span><span class="t-short">Исправную машину выгоднее перегнать своим ходом, битую везём эвакуатором.</span></p>
       </div>
       <div class="services">
         <article class="svc">
           <span class="tag">Своим ходом</span>
           <h3>Перегон с водителем</h3>
-          <p>Опытный водитель забирает машину в порту и ведёт её по Военно-Грузинской дороге. Подходит для исправных автомобилей с ключом и действующими транзитными номерами.</p>
+          <p><span class="t-full">Опытный водитель забирает машину в порту и ведёт её по Военно-Грузинской дороге. Подходит для исправных автомобилей с ключом и действующими транзитными номерами.</span><span class="t-short">Водитель забирает машину в порту и ведёт сам. Для исправных авто с ключом.</span></p>
           <div class="price">от 550 $ <span>до Владикавказа</span></div>
         </article>
         <article class="svc">
           <span class="tag">Автовоз</span>
           <h3>Перевозка на автовозе</h3>
-          <p>Пробег не увеличивается, машина не устаёт на серпантине. Сборный автовоз уходит из Поти несколько раз в неделю, срок зависит от загрузки.</p>
+          <p><span class="t-full">Пробег не увеличивается, машина не устаёт на серпантине. Сборный автовоз уходит из Поти несколько раз в неделю, срок зависит от загрузки.</span><span class="t-short">Без пробега и износа. Отправки несколько раз в неделю.</span></p>
           <div class="price">от 750 $ <span>до Владикавказа</span></div>
         </article>
         <article class="svc">
           <span class="tag">Эвакуатор</span>
           <h3>Неисправные и битые авто</h3>
-          <p>Для машин с аукционов Copart и IAAI после ДТП, затопления или без ключа. Грузим лебёдкой в порту, крепим и везём отдельным рейсом.</p>
+          <p><span class="t-full">Для машин с аукционов Copart и IAAI после ДТП, затопления или без ключа. Грузим лебёдкой в порту, крепим и везём отдельным рейсом.</span><span class="t-short">Для битых, утопленных и машин без ключа с Copart и IAAI.</span></p>
           <div class="price">от 900 $ <span>до Владикавказа</span></div>
         </article>
         <article class="svc">
           <span class="tag">Документы</span>
           <h3>Таможенное сопровождение</h3>
-          <p>Транзитная декларация в Грузии, брокер на посту во Владикавказе, помощь с СБКТС, ЭПТС и утильсбором. Вы получаете машину готовой к постановке на учёт.</p>
+          <p><span class="t-full">Транзитная декларация в Грузии, брокер на посту во Владикавказе, помощь с СБКТС, ЭПТС и утильсбором. Вы получаете машину готовой к постановке на учёт.</span><span class="t-short">Транзит, брокер, СБКТС, ЭПТС и утильсбор. Машина готова к учёту.</span></p>
           <div class="price">от 250 $ <span>за оформление</span></div>
         </article>
       </div>
@@ -386,31 +400,31 @@
     <div class="wrap">
       <div class="block-head">
         <h2>Сроки по этапам: 5–7 дней от заявки до выдачи</h2>
-        <p>Обычно укладываемся в 5 дней. Запас до 7 дней закладываем на ожидание в порту, очередь на границе, погоду на перевале и загрузку таможни.</p>
+        <p><span class="t-full">Обычно укладываемся в 5 дней. Запас до 7 дней закладываем на ожидание в порту, очередь на границе, погоду на перевале и загрузку таможни.</span><span class="t-short">Обычно 5 дней. Запас до 7 на порт, границу и погоду.</span></p>
       </div>
       <div class="gantt">
         <div class="g-row">
-          <div class="g-info"><h3>Заявка и проверка документов</h3><span class="dur">4–12 ч</span><p><span class="where">Онлайн.</span> Присылаете VIN, коносамент, инвойс и тайтл. Сверяем данные и называем точную цену.</p></div>
+          <div class="g-info"><h3>Заявка и проверка документов</h3><span class="dur">4–12 ч</span><p><span class="where">Онлайн.</span> <span class="t-full">Присылаете VIN, коносамент, инвойс и тайтл. Сверяем данные и называем точную цену.</span><span class="t-short">Присылаете VIN и документы, называем цену.</span></p></div>
           <div class="track"><b style="--s:0;--t:.5"></b><s style="--s:0;--t:.5;--x:.5"></s></div>
         </div>
         <div class="g-row">
-          <div class="g-info"><h3>Получение в порту Поти</h3><span class="dur">до 1 суток</span><p><span class="where">Поти.</span> Ждём выпуска с терминала, осматриваем машину, снимаем на видео, оформляем транзит.</p></div>
+          <div class="g-info"><h3>Получение в порту Поти</h3><span class="dur">до 1 суток</span><p><span class="where">Поти.</span> <span class="t-full">Ждём выпуска с терминала, осматриваем машину, снимаем на видео, оформляем транзит.</span><span class="t-short">Забираем, осматриваем, оформляем транзит.</span></p></div>
           <div class="track"><b style="--s:.5;--t:1"></b></div>
         </div>
         <div class="g-row">
-          <div class="g-info"><h3>Поти → Тбилиси</h3><span class="dur">1 сутки</span><p><span class="where">≈ 300 км.</span> Кутаиси, Рикотский перевал, Гори. Ночёвка на охраняемой стоянке.</p></div>
+          <div class="g-info"><h3>Поти → Тбилиси</h3><span class="dur">1 сутки</span><p><span class="where">≈ 300 км.</span> <span class="t-full">Кутаиси, Рикотский перевал, Гори. Ночёвка на охраняемой стоянке.</span><span class="t-short">Через Кутаиси и Гори.</span></p></div>
           <div class="track"><b style="--s:1.5;--t:1"></b></div>
         </div>
         <div class="g-row">
-          <div class="g-info"><h3>Тбилиси → Верхний Ларс</h3><span class="dur">1 сутки</span><p><span class="where">≈ 160 км.</span> Военно-Грузинская дорога через Крестовый перевал. Зимой зависит от погоды.</p></div>
+          <div class="g-info"><h3>Тбилиси → Верхний Ларс</h3><span class="dur">1 сутки</span><p><span class="where">≈ 160 км.</span> <span class="t-full">Военно-Грузинская дорога через Крестовый перевал. Зимой зависит от погоды.</span><span class="t-short">Через Крестовый перевал.</span></p></div>
           <div class="track"><b style="--s:2.5;--t:1"></b></div>
         </div>
         <div class="g-row">
-          <div class="g-info"><h3>Граница Верхний Ларс</h3><span class="dur">6–24 ч</span><p><span class="where">КПП.</span> Грузинский и российский контроль. Время зависит от очереди.</p></div>
+          <div class="g-info"><h3>Граница Верхний Ларс</h3><span class="dur">6–24 ч</span><p><span class="where">КПП.</span> <span class="t-full">Грузинский и российский контроль. Время зависит от очереди.</span><span class="t-short">Время зависит от очереди.</span></p></div>
           <div class="track"><b style="--s:3.5;--t:.5"></b><s style="--s:3.5;--t:.5;--x:.5"></s></div>
         </div>
         <div class="g-row">
-          <div class="g-info"><h3>Таможня Владикавказ и выдача</h3><span class="dur">1–2 суток</span><p><span class="where">Владикавказ, ≈ 40 км от границы.</span> Брокер оформляет декларацию, вы платите пошлину и утильсбор, забираете машину.</p></div>
+          <div class="g-info"><h3>Таможня Владикавказ и выдача</h3><span class="dur">1–2 суток</span><p><span class="where">Владикавказ, ≈ 40 км от границы.</span> <span class="t-full">Брокер оформляет декларацию, вы платите пошлину и утильсбор, забираете машину.</span><span class="t-short">Растаможка и выдача машины.</span></p></div>
           <div class="track"><b style="--s:4;--t:1"></b><s style="--s:4;--t:1;--x:1"></s></div>
         </div>
         <div class="g-ruler"><span></span><div class="days" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7 дн.</span></div></div>
@@ -426,7 +440,7 @@
     <div class="wrap">
       <div class="block-head">
         <h2>Предварительный расчёт</h2>
-        <p>Цена ориентировочная, без таможенной пошлины и утильсбора. Точную сумму назовём после проверки VIN и документов.</p>
+        <p><span class="t-full">Цена ориентировочная, без таможенной пошлины и утильсбора. Точную сумму назовём после проверки VIN и документов.</span><span class="t-short">Без пошлины и утильсбора. Точно скажем после проверки VIN.</span></p>
       </div>
       <div class="calc">
         <form class="panel" id="calc-form" onsubmit="return false">
@@ -459,7 +473,7 @@
               <option value="1100" disabled>Москва · скоро</option>
               <option value="1350" disabled>Санкт-Петербург · скоро</option>
             </select>
-            <span class="small">Пока доставляем только во Владикавказ. Другие города подключим позже.</span>
+            <span class="small"><span class="t-full">Пока доставляем только во Владикавказ. Другие города подключим позже.</span><span class="t-short">Пока только Владикавказ.</span></span>
           </div>
           <div class="field">
             <span class="lbl">Дополнительно</span>
@@ -475,7 +489,7 @@
           <span class="eyebrow">Ориентировочно</span>
           <div class="total mono" id="total">—</div>
           <div class="lines" id="lines"></div>
-          <p class="small">Срок: <span id="eta">—</span>. Пример расчёта; итог зависит от курса, сезона и очереди на границе.</p>
+          <p class="small">Срок: <span id="eta">—</span>. <span class="t-full">Пример расчёта; итог зависит от курса, сезона и очереди на границе.</span><span class="t-short">Итог зависит от курса и сезона.</span></p>
           <a class="btn" href="#order" id="calc-to-order">Заказать по этому расчёту</a>
         </div>
       </div>
@@ -509,7 +523,7 @@
     <div class="wrap order">
       <div>
         <h2>Оставьте заявку</h2>
-        <p style="margin-top:14px;color:var(--muted)">Пришлите VIN и город назначения. Проверим машину и назовём цену с учётом сезона и загрузки границы.</p>
+        <p style="margin-top:14px;color:var(--muted)"><span class="t-full">Пришлите VIN и город назначения. Проверим машину и назовём цену с учётом сезона и загрузки границы.</span><span class="t-short">Пришлите VIN, и мы назовём цену.</span></p>
         <div class="contacts">
           <div class="contact"><span class="eyebrow">Телефон</span><span class="mono">+7 (900) 000-00-00</span>
             <!-- КОНТАКТЫ И СОЦСЕТИ: замените ссылки в href на свои -->
@@ -535,18 +549,8 @@
           </div>
           <p class="err" id="f-err" hidden>Укажите имя и телефон, чтобы мы могли связаться с вами.</p>
           <div style="margin-top:20px"><button class="btn" type="submit">Отправить заявку на почту</button></div>
-          <p class="small" style="margin-top:10px">Откроется ваша почтовая программа с готовым письмом. Останется нажать «Отправить».</p>
+          <p class="small" style="margin-top:10px"><span class="t-full">Откроется ваша почтовая программа с готовым письмом. Останется нажать «Отправить».</span><span class="t-short">Откроется почта с готовым письмом.</span></p>
         </form>
-        <div class="done" id="done" hidden>
-          <h3>Письмо с заявкой готово</h3>
-          <p class="small">Мы открыли вашу почту с этим текстом. Отправьте письмо на <span class="mono">info@example.com</span>. Если почта не открылась, нажмите кнопку ниже или скопируйте текст в WhatsApp / Telegram: +7 (900) 000-00-00.</p>
-          <pre id="done-text"></pre>
-          <div class="row">
-            <a class="btn" id="mail-link" href="mailto:info@example.com">Открыть почту</a>
-            <button class="btn ghost" type="button" id="copy">Скопировать</button>
-            <button class="btn ghost" type="button" id="edit">Изменить</button>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -574,7 +578,7 @@
       [861,474,300],[846,438,320],[841,342,370],[839,285,390],[793,246,418],[808,237,426],[828,192,448],[826,168,462],[837,84,500]
     ];
     var legs = [[0,"Поти → Кутаиси"],[100,"Кутаиси → Гори"],[255,"Гори → Тбилиси"],[300,"Тбилиси → Ананури"],[370,"Подъём к Крестовому перевалу"],[426,"Спуск к Степанцминде"],[448,"Подъезд к Верхнему Ларсу"],[462,"Верхний Ларс → Владикавказ"]];
-    var car = document.getElementById("car"), done = document.getElementById("route-done");
+    var car = document.getElementById("car"), routeDone = document.getElementById("route-done");
     var pill = document.getElementById("trk-pill"), now = document.getElementById("trk-now");
     var bar = document.getElementById("trk-bar"), kmEl = document.getElementById("trk-km");
     var cps = [].slice.call(document.querySelectorAll("#trk-cps li"));
@@ -592,7 +596,7 @@
     function render(km, status, kind, pillText) {
       var p = at(km);
       car.setAttribute("transform", "translate(" + p.x.toFixed(1) + " " + p.y.toFixed(1) + ")");
-      done.setAttribute("points", p.pts.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" "));
+      routeDone.setAttribute("points", p.pts.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" "));
       var leg = legs[0][1];
       legs.forEach(function (l) { if (km >= l[0]) leg = l[1]; });
       pill.textContent = pillText || (kind === "ok" ? "Доставлена" : kind === "warn" ? "Ожидание" : "В пути");
@@ -603,7 +607,7 @@
       cps.forEach(function (li, i) { if (km >= +li.dataset.km) cur = i; });
       cps.forEach(function (li, i) { li.className = i < cur || (i === cur && kind === "ok") ? "done" : i === cur ? "now" : ""; });
     }
-    // сценарии по сезонам: порт → дорога → граница → Владикавказ → пауза, по кругу
+    // сценарии по сезонам: порт → дорога → граница → Владикавказ, один проход
     var seasons = {
       summer: {
         days: ["день 1", "день 2", "день 3", "день 3–4", "день 4–5"],
@@ -639,36 +643,77 @@
       }
     };
     var snow = document.getElementById("snow-zone"), noteBox = document.getElementById("season-note");
-    var plan, total, t0 = null, season;
+    var playBtn = document.getElementById("trk-play");
+    var plan, total, season;
+    var playing = false, started = false, elapsed = 0, startTs = 0, raf = 0;
+    // кадр по времени t (мс от начала прохода); последний шаг плана — финальное состояние
+    function draw(t) {
+      for (var i = 0; i < plan.length - 1; i++) {
+        var p = plan[i];
+        if (t < p.d) { var f = t / p.d; f = f < .5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2; render(p.from + (p.to - p.from) * f, p.s, p.k, p.p); return; }
+        t -= p.d;
+      }
+      var last = plan[plan.length - 1];
+      render(last.to, last.s, last.k, last.p);
+    }
+    function syncBtn() {
+      playBtn.classList.toggle("on", playing);
+      playBtn.setAttribute("aria-label", playing ? "Пауза" : "Запустить демо");
+    }
+    function tick(ts) {
+      elapsed = ts - startTs;
+      if (elapsed >= total) { elapsed = total; draw(total); pause(); return; }
+      draw(elapsed);
+      raf = requestAnimationFrame(tick);
+    }
+    function play() {
+      started = true;
+      if (elapsed >= total) elapsed = 0; // после финиша play запускает заново
+      playing = true;
+      startTs = performance.now() - elapsed;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+      syncBtn();
+    }
+    function pause() {
+      playing = false;
+      cancelAnimationFrame(raf);
+      syncBtn();
+    }
+    playBtn.addEventListener("click", function () { playing ? pause() : play(); });
+
     function setSeason(name) {
       season = seasons[name]; plan = season.plan;
-      total = plan.reduce(function (s, p) { return s + p.d; }, 0);
-      t0 = null;
+      total = plan.slice(0, -1).reduce(function (s, p) { return s + p.d; }, 0);
       cps.forEach(function (li, i) { li.lastElementChild.textContent = season.days[i]; });
       snow.style.opacity = name === "winter" ? 1 : 0;
       noteBox.innerHTML = season.note.map(function (n) {
         return '<div' + (n[3] ? ' class="hot"' : '') + '><span class="eyebrow">' + n[0] + '</span><span class="v">' + n[1] + '</span><p>' + n[2] + '</p></div>';
       }).join("");
       document.getElementById("s-" + name).checked = true;
-      if (still) render(name === "winter" ? 418 : 390, name === "winter" ? plan[2].s : null, name === "winter" ? "warn" : null, name === "winter" ? plan[2].p : null);
+      // смена сезона начинает маршрут сначала; если шла анимация, она продолжается
+      elapsed = 0; startTs = performance.now();
+      draw(0);
     }
-    var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     var month = new Date().getMonth() + 1;
     setSeason(month >= 5 && month <= 10 ? "summer" : "winter");
     [].forEach.call(document.querySelectorAll("[name=season]"), function (r) {
       r.addEventListener("change", function () { setSeason(r.value); });
     });
+
+    // автозапуск один раз, когда блок попал в поле видимости; дальше только кнопкой
+    var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!still) {
-      (function frame(ts) {
-        if (t0 === null) t0 = ts;
-        var t = (ts - t0) % total;
-        for (var i = 0; i < plan.length; i++) {
-          var p = plan[i];
-          if (t < p.d) { var f = t / p.d; f = f < .5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2; render(p.from + (p.to - p.from) * f, p.s, p.k, p.p); break; }
-          t -= p.d;
-        }
-        requestAnimationFrame(frame);
-      })(performance.now());
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting) return;
+          io.disconnect();
+          if (!started) play();
+        }, { threshold: 0.4 });
+        io.observe(document.querySelector(".map-grid"));
+      } else {
+        play();
+      }
     }
 
     /* ---------- калькулятор ---------- */
@@ -709,7 +754,7 @@
     });
 
     /* ---------- заявка ---------- */
-    var of = document.getElementById("order-form"), done = document.getElementById("done");
+    var of = document.getElementById("order-form");
     of.addEventListener("submit", function (e) {
       e.preventDefault();
       var v = function (id) { return document.getElementById(id).value.trim(); };
@@ -727,20 +772,10 @@
         v("f-msg") && "Комментарий: " + v("f-msg")
       ].filter(Boolean);
       var body = lines.join("\n");
-      document.getElementById("done-text").textContent = body;
       var to = document.getElementById("mail-addr").textContent.trim();
       var subject = "Заявка на перегон: " + (v("f-car") || "автомобиль") + ", Поти → Владикавказ";
       var href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-      document.getElementById("mail-link").href = href;
-      of.hidden = true; done.hidden = false;
       window.location.href = href;
-    });
-    document.getElementById("edit").addEventListener("click", function () { done.hidden = true; of.hidden = false; });
-    document.getElementById("copy").addEventListener("click", function () {
-      var btn = this, pre = document.getElementById("done-text");
-      var ok = function () { btn.textContent = "Скопировано"; setTimeout(function () { btn.textContent = "Скопировать"; }, 1800); };
-      var fallback = function () { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Выделено, нажмите Ctrl+C"; };
-      try { navigator.clipboard.writeText(pre.textContent).then(ok, fallback); } catch (err) { fallback(); }
     });
   })();
 </script>
